@@ -31,7 +31,93 @@ async function bubbleSort(array) {
     }
     return sortedArray;
 }
-bubbleSort(array);
+
+async function mergeSort(array) {
+    // check if the array has more than one element
+    if (array.length > 1) {
+      // split the array into two halves
+        let mid = Math.floor(array.length / 2);
+        let left = array.slice(0, mid);
+        let right = array.slice(mid);
+
+        // recursively sort the two halves
+        left = mergeSort(left);
+        right = mergeSort(right);
+    
+        // merge the two sorted halves into the original array
+        array = merging(left, right);
+        await new Promise(resolve => setTimeout(resolve, 500))
+            .then(updateChart(array, 'Merge Sort'))
+    }
+
+    return array;
+}
+
+function merging(left, right) {
+    // create new arrays to avoid modifying the original ones
+    let newLeft = [...left];
+    let newRight = [...right];
+
+    // initialize variables for iteration and result array
+    let i = 0;
+    let j = 0;
+    let k = 0;
+    let result = [];
+    
+    // compare elements from both arrays and add the smaller one to the result array
+    
+    while (i < left.length && j < right.length) {
+        if (newLeft[i] <= newRight[j]) {
+            result[k] = newLeft[i];
+            i++;
+        } else {
+            result[k] = newRight[j];
+            j++;
+        }
+        k++;
+    }
+    
+    // add any remaining elements from the left array to the result array
+    while (i < left.length) {
+        result[k] = left[i];
+        i++;
+        k++;
+    }
+    
+    // add any remaining elements from the right array to the result array
+    while (j < right.length) {
+        result[k] = right[j];
+        j++;
+        k++;
+    }
+    
+    return result;
+}
+
+async function selectionSort(array){
+    let min 
+    for(let i = 0; i < array.length; i++){
+        min = i
+        for( let j= 0; j < array.length; j++){
+            if(array[j] > array[min]){
+                min = j
+                change(array, min, i)
+                await new Promise(resolve => setTimeout(resolve, 500))
+                    .then(updateChart(array, 'Selection Sort'))
+            }
+        }
+    }
+    return array
+}
+
+function change(array, xPos, yPos){
+    let temp = array[xPos]
+    array[xPos] = array[yPos]
+    array[yPos] = temp
+}
+// console.log(mergeSort(array))
+console.log(selectionSort(array))
+// bubbleSort(array);
 var colors = generateColorsArray();
 //updateChart(array, 'bubble sort');
 function updateChart(array, chartLabel) {
